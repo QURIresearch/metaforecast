@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 import { QuestionFragment } from "../../../fragments.generated";
 import { Stars } from "../Stars";
 
@@ -53,7 +55,7 @@ const getPercentageSymbolIfNeeded = ({
   indicator: UsedIndicatorName;
   platform: string;
 }) => {
-  let indicatorsWhichNeedPercentageSymbol: IndicatorName[] = ["spread"];
+  const indicatorsWhichNeedPercentageSymbol: IndicatorName[] = ["spread"];
   if (indicatorsWhichNeedPercentageSymbol.includes(indicator)) {
     return "%";
   } else {
@@ -117,7 +119,7 @@ export const formatIndicatorValue = (
   })}`;
 };
 
-const QualityIndicatorsList: React.FC<{
+const QualityIndicatorsList: FC<{
   question: QuestionFragment;
 }> = ({ question }) => {
   return (
@@ -147,21 +149,16 @@ const QualityIndicatorsList: React.FC<{
   );
 };
 
-interface Props {
+export const QuestionFooter: FC<{
   question: QuestionFragment;
   expandFooterToFullWidth: boolean;
-}
-
-export const QuestionFooter: React.FC<Props> = ({
-  question,
-  expandFooterToFullWidth,
-}) => {
+}> = ({ question, expandFooterToFullWidth }) => {
   return (
-    (<div
-            className={`grid grid-cols-3 ${
-              expandFooterToFullWidth ? "justify-between" : ""
-            } text-gray-500`}
-          >
+    <div
+      className={`grid grid-cols-3 ${
+        expandFooterToFullWidth ? "justify-between" : ""
+      } text-gray-500`}
+    >
       <div className="self-center">
         <Stars num={question.qualityIndicators.stars} />
       </div>
@@ -184,6 +181,6 @@ export const QuestionFooter: React.FC<Props> = ({
       >
         <QualityIndicatorsList question={question} />
       </div>
-    </div>)
+    </div>
   );
 };

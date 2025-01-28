@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
+import chroma from "chroma-js";
+import React, { FC } from "react";
+import Select, { StylesConfig } from "react-select";
 
-import chroma from 'chroma-js';
-import Select, { StylesConfig } from 'react-select';
-
-import { PlatformConfig } from '../../backend/platforms';
+import { PlatformConfig } from "@/backend/types";
 
 type Option = {
   value: string;

@@ -2,7 +2,8 @@ import axios from "axios";
 
 import { QuestionOption } from "../../common/types";
 import { average } from "../../utils";
-import { FetchedQuestion, Platform } from "./";
+import { saveQuestions } from "../robot";
+import { FetchedQuestion, Platform } from "../types";
 
 /* Definitions */
 const platformName = "smarkets";
@@ -174,31 +175,40 @@ async function processEventMarkets(event: any, ctx: Context) {
   return results;
 }
 
-export const smarkets: Platform<"eventId" | "verbose"> = {
+export const smarkets: Platform = {
   name: platformName,
   label: "Smarkets",
   color: "#6f5b41",
   version: "v2",
-  fetcherArgs: ["eventId", "verbose"],
-  async fetcher(opts) {
+
+  extendCliCommand(command) {
+    command
+      .command("fetch-one")
+      .argument("<id>", "Fetch a single question by id")
+      .action(async (eventId) => {
+        const events = [
+          await fetchSingleEvent(eventId, {
+            verbose: !!process.env.DEBUG,
+          }),
+        ];
+        await saveQuestions(smarkets, events, true);
+      });
+  },
+
+  async fetcher() {
     const ctx = {
-      verbose: Boolean(opts.args?.verbose) || false,
+      verbose: !!process.env.DEBUG,
     };
 
-    let events: any[] = [];
-    let partial = true;
-    if (opts.args?.eventId) {
-      events = [await fetchSingleEvent(opts.args.eventId, ctx)];
-    } else {
-      events = await fetchEvents(ctx);
-      partial = false;
-    }
+    const partial = false;
+    const events = await fetchEvents(ctx);
 
     let results: FetchedQuestion[] = [];
     for (const event of events) {
       const eventResults = await processEventMarkets(event, ctx);
       results.push(...eventResults);
     }
+
     return {
       questions: results,
       partial,

@@ -1,7 +1,7 @@
-import { Card } from '@/web/common/Card';
-import { getUrqlRscClient } from '@/web/urql';
+import { Card } from "@/web/common/Card";
+import { getUrqlRscClient } from "@/web/urql";
 
-import { PlatformsStatusDocument } from './queries.generated';
+import { PlatformsStatusDocument } from "./queries.generated";
 
 export default async function () {
   const client = getUrqlRscClient();
@@ -62,3 +62,5 @@ export default async function () {
     </div>
   );
 }
+
+export const dynamic = "force-dynamic";

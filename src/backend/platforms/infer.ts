@@ -3,11 +3,11 @@ import axios from "axios";
 
 import { FullQuestionOption } from "../../common/types";
 import { average } from "../../utils";
+import { FetchedQuestion, Platform } from "../types";
 import { applyIfSecretExists } from "../utils/getSecrets";
 import { measureTime } from "../utils/measureTime";
 import { sleep } from "../utils/sleep";
 import toMarkdown from "../utils/toMarkdown";
-import { FetchedQuestion, Platform } from "./";
 
 /* Definitions */
 const platformName = "infer";

@@ -93,3 +93,135 @@ model FrontpageId {
   question Question @relation(fields: [id], references: [id], onDelete: Cascade)
   id       String   @unique
 }
+
+// Manifold-specific tables
+
+enum ManifoldToken {
+  MANA
+  CASH
+}
+
+// Documented in backend/platforms/manifold/apiSchema.ts
+model ManifoldMarket {
+  id String @id
+
+  creatorId String
+  creator   ManifoldMarketUser @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  // Market attributes
+  createdTime DateTime // When the market was created
+  closeTime   DateTime? // Min of creator's chosen date, and resolutionTime
+  question    String
+
+  url String
+
+  outcomeType String // BINARY, FREE_RESPONSE, MULTIPLE_CHOICE, NUMERIC, PSEUDO_NUMERIC, BOUNTIED_QUESTION, POLL, or ...
+  mechanism   String // dpm-2, cpmm-1, or cpmm-multi-1
+
+  probability    Float?
+  pool           Json? // For CPMM markets, the number of shares in the liquidity pool. For DPM markets, the amount of mana invested in each answer.
+  p              Float? // CPMM markets only, probability constant in y^p * n^(1-p) = k
+  totalLiquidity Float? // CPMM markets only, the amount of mana deposited into the liquidity pool
+
+  value      Float? // PSEUDO_NUMERIC markets only, the current market value, which is mapped from probability using min, max, and isLogScale.
+  min        Float? // PSEUDO_NUMERIC markets only, the minimum resolvable value
+  max        Float? // PSEUDO_NUMERIC markets only, the maximum resolvable value
+  isLogScale Boolean? // PSEUDO_NUMERIC markets only, if true `number = (max - min + 1)^probability + minstart - 1`, otherwise `number = min + (max - min) * probability`
+
+  volume        Float
+  volume24Hours Float
+
+  isResolved            Boolean
+  resolutionTime        DateTime?
+  resolution            String?
+  resolutionProbability Float? // Used for BINARY markets resolved to MKT
+  uniqueBettorCount     Int
+
+  lastUpdatedTime DateTime?
+  lastBetTime     DateTime?
+
+  token             ManifoldToken?
+  siblingContractId String? // id of the prizecash or mana version of this question that you get to by toggling.
+
+  // FullMarket specific fields
+  answers ManifoldMarketAnswer[] // Answers for multi markets
+
+  // multi markets only, whether answers are dependant (that is add up to 100%, typically used when only one answer should win). Always true for dpm-2 multiple choice and free response
+  shouldAnswersSumToOne Boolean?
+  // multi markets only, who can add answers
+  addAnswersMode        String?
+
+  // Poll only.
+  // Poll options don't have ids, so storing them in a model would be problematic.
+  // .array(
+  //   z.object({
+  //     text: z.string(),
+  //     votes: z.number(),
+  //   })
+  // )
+  options Json
+
+  totalBounty Float? // bounty only
+  bountyLeft  Float? // bounty only
+
+  // Rich text content. See https://tiptap.dev/guide/output#option-1-json
+  description     Json?
+  // string description without formatting, images, or embeds
+  textDescription String
+
+  coverImageUrl String?
+
+  // topics tagged in this market
+  groups ManifoldMarketGroup[]
+}
+
+model ManifoldMarketUser {
+  id        String  @id
+  name      String
+  username  String
+  avatarUrl String?
+
+  // TODO - more fields
+
+  ManifoldMarket ManifoldMarket[]
+}
+
+// Note: API documentation on this in https://docs.manifold.markets/api#get-v0marketmarketid is not correct.
+// Refer to https://github.com/manifoldmarkets/manifold/blob/main/common/src/api/market-types.ts and https://github.com/manifoldmarkets/manifold/blob/main/common/src/answer.ts instead.
+model ManifoldMarketAnswer {
+  id String @id
+
+  marketId String
+  market   ManifoldMarket @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  createdTime DateTime
+
+  index       Int
+  text        String
+  probability Float
+
+  pool Json?
+
+  // TODO - more fields
+}
+
+// "topic", e.g. https://manifold.markets/topic/covid-origins
+model ManifoldGroup {
+  id String @id
+
+  slug String @unique
+  name String
+
+  groups ManifoldMarketGroup[]
+}
+
+// many-to-many relation
+model ManifoldMarketGroup {
+  marketId String
+  market   ManifoldMarket @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  groupId String
+  group   ManifoldGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([marketId, groupId])
+}

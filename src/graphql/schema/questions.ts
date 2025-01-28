@@ -1,7 +1,8 @@
 import { History, Question } from "@prisma/client";
 
+import { QualityIndicators } from "@/backend/types";
+
 import { prisma } from "../../backend/database/prisma";
-import { QualityIndicators } from "../../backend/platforms";
 import { guesstimate } from "../../backend/platforms/guesstimate";
 import { builder } from "../builder";
 import { PlatformObj } from "./platforms";

@@ -1,8 +1,9 @@
 /* Imports */
 import fs from "fs";
 
+import { QualityIndicators } from "@/backend/types";
+
 import { prisma } from "../../database/prisma";
-import { QualityIndicators } from "../../platforms";
 
 /* Definitions */
 let locationData = "./data/";

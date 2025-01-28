@@ -1,23 +1,16 @@
 "use client";
-import React, {
-  FC,
-  use,
-  useState,
-} from 'react';
+import debounce from "lodash/debounce";
+import React, { FC, use, useState } from "react";
 
-import debounce from 'lodash/debounce';
+import { type PlatformConfig } from "@/backend/types";
 
-import { type PlatformConfig } from '../../backend/platforms';
-import { MultiSelectPlatform } from '../../web/common/MultiSelectPlatform';
-import { ButtonsForStars } from '../../web/display/ButtonsForStars';
-import { SliderElement } from '../../web/display/SliderElement';
-import { SearchQuery } from './common';
-import {
-  useSearchQuery,
-  useUpdateSearchQuery,
-} from './hooks';
-import { QueryForm } from './QueryForm';
-import { SearchUIContext } from './SearchUIProvider';
+import { MultiSelectPlatform } from "../../web/common/MultiSelectPlatform";
+import { ButtonsForStars } from "../../web/display/ButtonsForStars";
+import { SliderElement } from "../../web/display/SliderElement";
+import { SearchQuery } from "./common";
+import { useSearchQuery, useUpdateSearchQuery } from "./hooks";
+import { QueryForm } from "./QueryForm";
+import { SearchUIContext } from "./SearchUIProvider";
 
 export type Props = {
   platformsConfig: PlatformConfig[];

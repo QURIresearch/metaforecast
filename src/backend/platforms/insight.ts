@@ -1,12 +1,10 @@
-/* Imports */
-import { or } from "ajv/dist/compile/codegen";
 import axios from "axios";
 
-import { FetchedQuestion, Platform } from ".";
 import { QuestionOption } from "../../common/types";
-import toMarkdown from "../utils/toMarkdown";
 import { average } from "../../utils";
+import { FetchedQuestion, Platform } from "../types";
 import { sleep } from "../utils/sleep";
+import toMarkdown from "../utils/toMarkdown";
 
 /* Definitions */
 const platformName = "insight";
@@ -354,7 +352,7 @@ export const insight: Platform = {
   version: "v1",
   async fetcher() {
     return []; // insight API seems down.
-		/*
+    /*
     let bearer = process.env.INSIGHT_BEARER;
     if (!!bearer) {
       let data = await fetchAllMarkets(bearer);

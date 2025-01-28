@@ -15,8 +15,8 @@ export type FullQuestionOption = Exclude<
   probability: NonNullable<QuestionOption["probability"]>;
 };
 
-export const isFullQuestionOption = (
+export function isFullQuestionOption(
   option: QuestionOption | QuestionFragment["options"][0]
-): option is FullQuestionOption => {
+): option is FullQuestionOption {
   return option.name != null && option.probability != null;
-};
+}

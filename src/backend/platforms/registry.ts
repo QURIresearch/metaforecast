@@ -1,3 +1,4 @@
+import { Platform, PlatformConfig } from "../types";
 import { betfair } from "./betfair";
 import { fantasyscotus } from "./fantasyscotus";
 import { foretold } from "./foretold";
@@ -5,7 +6,6 @@ import { givewellopenphil } from "./givewellopenphil";
 import { goodjudgment } from "./goodjudgment";
 import { goodjudgmentopen } from "./goodjudgmentopen";
 import { guesstimate } from "./guesstimate";
-import { Platform, PlatformConfig } from "./index";
 import { infer } from "./infer";
 import { insight } from "./insight";
 import { kalshi } from "./kalshi";
@@ -18,8 +18,8 @@ import { smarkets } from "./smarkets";
 import { wildeford } from "./wildeford";
 import { xrisk } from "./xrisk";
 
-// function instead of const array, this helps to fight circular dependencies
-export const getPlatforms = (): Platform<string>[] => {
+// function instead of const array, this helps with circular dependencies
+export function getPlatforms(): Platform[] {
   return [
     betfair,
     fantasyscotus,
@@ -40,7 +40,7 @@ export const getPlatforms = (): Platform<string>[] => {
     wildeford,
     xrisk,
   ];
-};
+}
 
 let _nameToLabelCache: { [k: string]: string } | undefined;
 export function platformNameToLabel(name: string): string {
@@ -53,8 +53,7 @@ export function platformNameToLabel(name: string): string {
 }
 
 // get frontend-safe version of platforms data
-
-export const getPlatformsConfig = (): PlatformConfig[] => {
+export function getPlatformsConfig(): PlatformConfig[] {
   const platformsConfig = getPlatforms().map((platform) => ({
     name: platform.name,
     label: platform.label,
@@ -62,4 +61,4 @@ export const getPlatformsConfig = (): PlatformConfig[] => {
   }));
 
   return platformsConfig;
-};
+}

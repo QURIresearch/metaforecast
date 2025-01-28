@@ -1,9 +1,9 @@
 import axios from "axios";
 
 import { average } from "../../utils";
+import { FetchedQuestion, Platform } from "../types";
 import { sleep } from "../utils/sleep";
 import toMarkdown from "../utils/toMarkdown";
-import { FetchedQuestion, Platform } from "./";
 
 const platformName = "predictit";
 

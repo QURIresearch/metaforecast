@@ -2,9 +2,9 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
 import { average } from "../../utils";
+import { FetchedQuestion, Platform } from "../types";
 import { applyIfSecretExists } from "../utils/getSecrets";
 import { hash } from "../utils/hash";
-import { FetchedQuestion, Platform } from "./";
 
 /* Definitions */
 const platformName = "wildeford";

@@ -1,7 +1,7 @@
 /* Imports */
 import axios from "axios";
 
-import { FetchedQuestion, Platform } from "./";
+import { FetchedQuestion, Platform } from "../types";
 
 /* Definitions */
 const platformName = "example";
@@ -22,7 +22,7 @@ async function fetchData() {
 }
 
 async function processPredictions(predictions: any[]) {
-  let results = await predictions.map((prediction) => {
+  const results = await predictions.map((prediction) => {
     const id = `${platformName}-${prediction.id}`;
     const probability = prediction.probability;
     const options: FetchedQuestion["options"] = [
@@ -61,8 +61,8 @@ export const example: Platform = {
   color: "#ff0000",
   version: "v1",
   async fetcher() {
-    let data = await fetchData();
-    let results = await processPredictions(data); // somehow needed
+    const data = await fetchData();
+    const results = await processPredictions(data); // somehow needed
     return results;
   },
   calculateStars(data) {

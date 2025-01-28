@@ -1,7 +1,7 @@
 import fs from "fs";
 
+import { Platform } from "../types";
 import { hash } from "../utils/hash";
-import { Platform } from "./";
 
 const platformName = "xrisk";
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import https from "https";
 
 import { average } from "../../utils";
-import { FetchedQuestion, Platform } from "./";
+import { FetchedQuestion, Platform } from "../types";
 
 const platformName = "betfair";
 

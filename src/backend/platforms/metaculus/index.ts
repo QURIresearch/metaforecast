@@ -1,9 +1,8 @@
-import {
-  FetchedQuestion,
-  Platform,
-} from '../';
-import { average } from '../../../utils';
-import { sleep } from '../../utils/sleep';
+import { saveQuestions } from "@/backend/robot";
+import { FetchedQuestion, Platform } from "@/backend/types";
+
+import { average } from "../../../utils";
+import { sleep } from "../../utils/sleep";
 import {
   ApiCommon,
   ApiMultipleQuestions,
@@ -11,7 +10,7 @@ import {
   ApiQuestion,
   fetchApiQuestions,
   fetchSingleApiQuestion,
-} from './api';
+} from "./api";
 
 const platformName = "metaculus";
 const now = new Date().toISOString();
@@ -149,28 +148,33 @@ async function apiQuestionToFetchedQuestions(
   }
 }
 
-export const metaculus: Platform<"id" | "debug"> = {
+export const metaculus: Platform = {
   name: platformName,
   label: "Metaculus",
   color: "#006669",
   version: "v2",
-  fetcherArgs: ["id", "debug"],
-  async fetcher(opts) {
+
+  extendCliCommand(command) {
+    command
+      .command("fetch-one")
+      .argument("<id>", "Fetch a single question by id")
+      .action(async (idString) => {
+        try {
+          const id = Number(idString);
+          const apiQuestion = await fetchSingleApiQuestion(id);
+          const questions = await apiQuestionToFetchedQuestions(apiQuestion);
+          console.log(questions);
+          await saveQuestions(metaculus, questions, true);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+  },
+
+  async fetcher() {
     let allQuestions: FetchedQuestion[] = [];
 
-    if (opts.args?.id) {
-      try {
-        console.log("Using optional id arg.");
-        const id = Number(opts.args.id);
-        const apiQuestion = await fetchSingleApiQuestion(id);
-        const questions = await apiQuestionToFetchedQuestions(apiQuestion);
-        console.log(questions);
-        return { questions, partial: true };
-      } catch (error) {
-        console.log(error);
-        return { questions: [], partial: true };
-      }
-    }
+    const debug = !!process.env.DEBUG;
 
     let next: string | null = "https://www.metaculus.com/api2/questions/";
     let i = 1;
@@ -188,7 +192,7 @@ export const metaculus: Platform<"id" | "debug"> = {
         // console.log(questions)
         for (const question of questions) {
           console.log(`- ${question.title}`);
-          if ((!j && i % 20 === 0) || opts.args?.debug) {
+          if ((!j && i % 20 === 0) || debug) {
             console.log(question);
             j = true;
           }

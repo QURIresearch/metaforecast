@@ -1,3 +1,9 @@
+## Move to Squiggle monorepo
+
+**This repository is deprecated.**
+
+To make things easier to maintain by [QURI](https://quantifieduncertainty.org/) team, we moved Metaforecast source code to [Squiggle monorepo](https://github.com/quantified-uncertainty/squiggle). Refer to [apps/metaforecast](https://github.com/quantified-uncertainty/squiggle/tree/main/apps/metaforecast) for the latest source code.
+
 ## What this is
 
 [Metaforecast](https://metaforecast.org) is a search engine for probabilities from various prediction markes and forecasting platforms. Try searching "Trump", "China" or "Semiconductors".
@@ -94,7 +100,7 @@ Overall, the services which we use are:
 - This repository is released under the [MIT license](https://opensource.org/licenses/MIT). See `LICENSE.md`
 - Commits follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 - For elicit and metaculus, this library currently filters out questions with <10 predictions.
-- The database is updated once a day, at 3:00 AM UTC, with the command `ts-node -T src/backend/flow/doEverythingForScheduler.ts`. The frontpage is updated after that, at 6:00 AM UTC with the command `ts-node -T src/backend/index.ts frontpage`. It's possible that either of these two operations makes the webpage briefly go down.
+- The database is updated once a day, at 3:00 AM UTC, with the command `ts-node -T src/backend/flow/doEverythingForScheduler.ts`. The frontpage is updated after that, at 6:00 AM UTC with the command `ts-node -T src/backend/cli/index.ts frontpage`. It's possible that either of these two operations makes the webpage briefly go down.
 
 ## To do
 

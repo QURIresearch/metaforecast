@@ -2,7 +2,7 @@
 import axios from "axios";
 
 import { average } from "../../utils";
-import { FetchedQuestion, Platform } from "./";
+import { FetchedQuestion, Platform } from "../types";
 
 /* Definitions */
 

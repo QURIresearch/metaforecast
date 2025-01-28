@@ -1,11 +1,9 @@
-/* Imports */
-import axios from "axios";
-
 import api from "api";
-const kalshi_api = api("@trading-api/v2.0#13mtbs10lc863irx");
 
 import { average } from "../../utils";
-import { FetchedQuestion, Platform } from "./";
+import { Platform } from "../types";
+
+const kalshi_api = api("@trading-api/v2.0#13mtbs10lc863irx");
 
 /* Definitions */
 const platformName = "kalshi";

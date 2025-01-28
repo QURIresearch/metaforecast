@@ -3,8 +3,8 @@ import axios from "axios";
 import { Tabletojson } from "tabletojson";
 
 import { average } from "../../utils";
+import { FetchedQuestion, Platform } from "../types";
 import { hash } from "../utils/hash";
-import { FetchedQuestion, Platform } from "./";
 
 /* Definitions */
 const platformName = "goodjudgment";

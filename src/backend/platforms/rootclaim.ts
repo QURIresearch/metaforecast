@@ -2,8 +2,8 @@ import axios from "axios";
 import { JSDOM } from "jsdom";
 
 import { average } from "../../utils";
+import { FetchedQuestion, Platform } from "../types";
 import toMarkdown from "../utils/toMarkdown";
-import { FetchedQuestion, Platform } from "./";
 
 const platformName = "rootclaim";
 const jsonEndpoint =

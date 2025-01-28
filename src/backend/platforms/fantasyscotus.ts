@@ -1,7 +1,7 @@
 /* Imports */
 import axios from "axios";
 
-import { FetchedQuestion, Platform } from "./";
+import { FetchedQuestion, Platform } from "../types";
 
 const platformName = "fantasyscotus";
 

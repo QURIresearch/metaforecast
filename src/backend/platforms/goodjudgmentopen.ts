@@ -1,12 +1,12 @@
 /* Imports */
-import axios from 'axios';
+import axios from "axios";
 
-import { FullQuestionOption } from '../../common/types';
-import { average } from '../../utils';
-import { applyIfSecretExists } from '../utils/getSecrets';
-import { sleep } from '../utils/sleep';
-import toMarkdown from '../utils/toMarkdown';
-import { Platform } from './';
+import { FullQuestionOption } from "../../common/types";
+import { average } from "../../utils";
+import { Platform } from "../types";
+import { applyIfSecretExists } from "../utils/getSecrets";
+import { sleep } from "../utils/sleep";
+import toMarkdown from "../utils/toMarkdown";
 
 /* Definitions */
 const platformName = "goodjudgmentopen";

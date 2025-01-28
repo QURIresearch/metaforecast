@@ -3,7 +3,7 @@ import axios from "axios";
 import fs from "fs";
 
 import { average } from "../../utils";
-import { Platform } from "./";
+import { Platform } from "../types";
 
 const platformName = "givewellopenphil";
 

@@ -1,14 +1,9 @@
+import { Question } from "@prisma/client";
 import axios from "axios";
 
-import { Question } from "@prisma/client";
-
+import { prepareQuestion, upsertSingleQuestion } from "../robot";
+import { FetchedQuestion, Platform } from "../types";
 import { ElasticQuestion, questionToElasticDocument } from "../utils/elastic";
-import {
-  FetchedQuestion,
-  Platform,
-  prepareQuestion,
-  upsertSingleQuestion,
-} from "./";
 
 /* Definitions */
 const searchEndpoint =
@@ -96,4 +91,8 @@ export const guesstimate: Platform & {
   version: "v1",
   fetchQuestion,
   calculateStars: (q) => (q.description?.length > 250 ? 2 : 1),
+  fetcher: async () => {
+    console.log(`Platform Guesstimate doesn't have a fetcher, skipping`);
+    return null;
+  },
 };
